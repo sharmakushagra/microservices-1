@@ -1,0 +1,81 @@
+---
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: "SQS interaction"
+host: "localhost:8084"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+paths:
+  /user:
+    post:
+      tags:
+      - "user"
+      summary: "Creates user"
+      description: "Creates user"
+      operationId: "createUser"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "request object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            $ref: "#/definitions/UserResponse"
+        default:
+          description: "Error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-swagger-router-controller: "User"
+    x-swagger-router-controller: "user_service"
+  /swagger:
+    x-swagger-pipe: "swagger_raw"
+definitions:
+  User:
+    type: "object"
+    required:
+    - "email"
+    - "password"
+    - "username"
+    properties:
+      username:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+    example:
+      password: "password"
+      email: "email"
+      username: "username"
+  UserResponse:
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
+      userId:
+        type: "string"
+    example:
+      message: "message"
+      userId: "userId"
+  ErrorResponse:
+    required:
+    - "message"
+    properties:
+      message:
+        type: "string"
