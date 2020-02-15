@@ -10,6 +10,9 @@ module.exports.createUser = function createUser (req, res, next) {
       utils.writeJson(res, response);
     })
     .catch(function (response) {
-      utils.writeJson(res, response);
+      if(response.payload && response.code)
+        return utils.writeJson(res, response.payload, response.code);
+      else
+        return utils.writeJson(res, response, 500);
     });
 };
